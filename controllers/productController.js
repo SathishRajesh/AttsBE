@@ -58,13 +58,13 @@ const handleUpdateProduct = async (req, res) => {
       status: "Active", 
     });
     if (existingProduct) {
-      return res.status(200).json({ data: existingProduct});
+      return res.status(200).json({ data: existingProduct,message:"Product Updated Successfully."});
     }
 
     const updatedProduct = await Product?.create(
       { metal, purity, amount,parentIdValue,status,date},
     );
-    res.status(200).json({ data: updatedProduct });
+    res.status(200).json({ data: updatedProduct ,message:"Product Created Successfully."});
   } catch (error) {
     console.error("Error updating Product:", error);
     res.status(500).json({ message: "Update failed" });
