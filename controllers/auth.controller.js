@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/users");
+const connectDB = require("../dataBase");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -55,6 +56,9 @@ exports.registerUser = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+
+      await connectDB();
+      
     const { email = "", password = "" } = req.body || {};
 
     const user = await Users.findOne({ email: email }).lean();
