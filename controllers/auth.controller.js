@@ -57,12 +57,6 @@ exports.registerUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
 
-      // const data =await connectDB();
-
-      // if(!data)
-      // {
-      //      return res.status(401).json({ message: "MongoDb error." }); 
-      // }
 
     const { email = "", password = "" } = req.body || {};
 
