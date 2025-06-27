@@ -8,24 +8,18 @@ const connectDb = async () => {
 
   try {
     await mongoose.connect(process.env.SAN_DB, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       bufferCommands: false,
     });
 
     const conn = mongoose.connection;
+
     const dbName = conn.db?.databaseName || "Unavailable";
-
-    logger.info(` MongoDB Connected`);
-    logger.info(`DB Name: ${dbName}`);
-
-    if (process.env.NODE_ENV !== "production") {
-      logger.info(`URI: ${process.env.SAN_DB}`);
-    }
+    logger.info(`✅ MongoDB Connected`);
+    logger.info(`🔗 DB Name: ${dbName}`);
 
     isConnected = conn.readyState === 1;
   } catch (error) {
-    logger.error(`MongoDB connection failed: ${error.message}`);
+    logger.error(`❌ MongoDB connection failed: ${error.message}`);
     throw error;
   }
 };
