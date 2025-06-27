@@ -1,3 +1,4 @@
+// backend/db.js
 const mongoose = require("mongoose");
 
 let isConnected = false;
@@ -6,17 +7,17 @@ const connectDb = async () => {
   if (isConnected) return;
 
   try {
-    const db = await mongoose.connect(process.env.SAN_DB, {
+    const db = await mongoose.connect(process.env.sandb, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      bufferCommands: false,
+      bufferCommands: false, // Prevents "buffering timed out" error
     });
 
-    isConnected = db.connections[0].readyState;
-    console.log("MongoDB Connected:", db.connection.host);
+    isConnected = db.connections[0].readyState === 1;
+    console.log("✅ MongoDB Connected:", db.connection.host);
   } catch (error) {
-    console.error("Error in DB connection:", error.message);
-    throw new Error("Database connection failed");
+    console.error("❌ MongoDB connection failed:", error.message);
+    throw error;
   }
 };
 
