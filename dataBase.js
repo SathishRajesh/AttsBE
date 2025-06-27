@@ -14,10 +14,14 @@ const connectDb = async () => {
     });
 
     const conn = mongoose.connection;
+    const dbName = conn.db?.databaseName || "Unavailable";
 
-    logger.info(`MongoDB Connected`);
-    logger.info(`DB Name: ${conn.name}`);
-    logger.info(`URI: ${conn.client?.s?.url || 'Unavailable'}`);
+    logger.info(` MongoDB Connected`);
+    logger.info(`DB Name: ${dbName}`);
+
+    if (process.env.NODE_ENV !== "production") {
+      logger.info(`URI: ${process.env.SAN_DB}`);
+    }
 
     isConnected = conn.readyState === 1;
   } catch (error) {
