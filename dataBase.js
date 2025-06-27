@@ -1,23 +1,27 @@
-// backend/db.js
 const mongoose = require("mongoose");
 const logger = require("./logger");
 
+let isConnected = false;
 
 const connectDb = async () => {
+  if (isConnected) return;
+
   try {
+    await mongoose.connect(process.env.SAN_DB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      bufferCommands: false,
+    });
 
-await mongoose.connect(process.env.SAN_DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  bufferCommands: false,
-});
+    const conn = mongoose.connection;
 
-const { host, name } = mongoose.connection;
+    logger.info(`MongoDB Connected`);
+    logger.info(`DB Name: ${conn.name}`);
+    logger.info(`URI: ${conn.client?.s?.url || 'Unavailable'}`);
 
-logger.info(`MongoDB Connected: host=${host}, db=${name}`);
-
+    isConnected = conn.readyState === 1;
   } catch (error) {
-logger.error(`MongoDB connection failed: ${error.message}`);
+    logger.error(`MongoDB connection failed: ${error.message}`);
     throw error;
   }
 };
