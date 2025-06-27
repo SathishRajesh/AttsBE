@@ -58,10 +58,10 @@ exports.login = async (req, res) => {
   try {
 
       await connectDB();
-      
+
     const { email = "", password = "" } = req.body || {};
 
-    const user = await Users.findOne({ email: email }).lean();
+    const user = await Users?.findOne({ email: email }).lean();
 
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
