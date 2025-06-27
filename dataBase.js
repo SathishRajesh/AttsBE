@@ -11,9 +11,7 @@ const connectDb = async () => {
       useUnifiedTopology: true,
       bufferCommands: false,
     });
-
-     db.connections[0].readyState === 1;
-       logger.info(` MongoDB Connected: ${db.connection.host}`);
+       logger.info(` MongoDB Connected: ${db}`);
   } catch (error) {
 logger.error(`MongoDB connection failed: ${error.message}`);
     throw error;
